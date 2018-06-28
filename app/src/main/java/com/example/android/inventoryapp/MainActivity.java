@@ -59,17 +59,16 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
+            // Respond to a click on the "Insert dummy item" menu option
             case R.id.insert_dummy_item:
                 insertDummyData();
                 updateDisplay();
-                // Do nothing for now
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
     private String queryData(){
-        String dataString = "";
+        StringBuilder dataString = new StringBuilder();
         // To access our database, we instantiate our subclass of SQLiteOpenHelper
         // and pass the context, which is the current activity.
 
@@ -88,16 +87,15 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = db.query(InventoryEntry.TABLE_NAME, projection,null,null,null,null,null);
 
         try {
-            // Create a header in the Text View
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-            dataString += "The inventory table contains " + cursor.getCount() + " items.\n\n";
-            dataString += InventoryEntry._ID + " - " +
+            // Set a message with the number of items
+            dataString.append("The inventory table contains " + cursor.getCount() + " items.\n\n");
+            // Create a header in the String
+            dataString.append(InventoryEntry._ID + " - " +
                     InventoryEntry.COLUMN_NAME + " - " +
                     InventoryEntry.COLUMN_PRICE + " - " +
                     InventoryEntry.COLUMN_QUANTITY + " - " +
                     InventoryEntry.COLUMN_SUPPLIER + " - " +
-                    InventoryEntry.COLUMN_PHONE + "\n";
+                    InventoryEntry.COLUMN_PHONE + "\n");
 
             // Figure out the index of each column
             int idColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
@@ -118,19 +116,19 @@ public class MainActivity extends AppCompatActivity {
                 String currentSupplier = cursor.getString(supplierColumnIndex);
                 String currentPhone = cursor.getString(phoneColumnIndex);
                 // Display the values from each column of the current row in the cursor in the TextView
-                dataString += "\n" + currentID + " - " +
+                dataString.append("\n" + currentID + " - " +
                         currentName + " - " +
                         currentPrice + " - " +
                         currentQuantity + " - " +
                         currentSupplier + " - " +
-                        currentPhone;
+                        currentPhone);
             }
         } finally {
             // Always close the cursor when you're done reading from it. This releases all its
             // resources and makes it invalid.
             cursor.close();
         }
-        return dataString;
+        return dataString.toString();
     }
     /**
      * Temporary helper method to display information in the onscreen TextView about the state of
