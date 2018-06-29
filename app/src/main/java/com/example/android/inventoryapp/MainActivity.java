@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         // Create a ContentValues object with dummy data to be inserted
         ContentValues inventoryItem = new ContentValues();
         inventoryItem.put(InventoryEntry.COLUMN_NAME,"Fossil CH3030 Watch");
-        inventoryItem.put(InventoryEntry.COLUMN_PRICE,"299");
-        inventoryItem.put(InventoryEntry.COLUMN_QUANTITY,"20");
+        inventoryItem.put(InventoryEntry.COLUMN_PRICE,299);
+        inventoryItem.put(InventoryEntry.COLUMN_QUANTITY,20);
         inventoryItem.put(InventoryEntry.COLUMN_SUPPLIER,"Fossil Inc.");
         inventoryItem.put(InventoryEntry.COLUMN_PHONE,"+44 854 8541");
 
