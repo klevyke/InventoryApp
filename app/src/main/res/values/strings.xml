@@ -4,4 +4,10 @@
     <string name="name_of_the_item">Name of the item</string>
     <string name="price_of_the_item">Price</string>
     <string name="quantity_of_the_item">Quantity</string>
+
+    <string name="action_delete_all_items">Delete all items</string>
+    <string name="delete_all_dialog_msg">Do you really want to delete all items?</string>
+    <string name="delete_dialog_msg">Delete this item?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

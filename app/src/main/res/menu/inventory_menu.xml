@@ -8,4 +8,9 @@
         android:id="@+id/insert_dummy_item"
         android:title="@string/insert_dummy_item"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_delete_all_entries"
+        android:title="@string/action_delete_all_items"
+        app:showAsAction="never" />
 </menu>
