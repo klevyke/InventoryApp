@@ -13,7 +13,7 @@ import static com.example.android.inventoryapp.data.InventoryContract.InventoryE
 public class InventoryDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME ="inventory.db";
     private static final int DATABASE_VERSION =1;
-    private static final String SQL_CREATE_PETS_TABLE = "CREATE TABLE "+InventoryEntry.TABLE_NAME+" ("+
+    private static final String SQL_CREATE_INVENTORY_TABLE = "CREATE TABLE "+InventoryEntry.TABLE_NAME+" ("+
             InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
             InventoryEntry.COLUMN_NAME + " TEXT NOT NULL, "+
             InventoryEntry.COLUMN_PRICE + " INTEGER, "+
@@ -29,7 +29,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Execute the SQL statement
-        db.execSQL(SQL_CREATE_PETS_TABLE);
+        db.execSQL(SQL_CREATE_INVENTORY_TABLE);
     }
 
     @Override

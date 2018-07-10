@@ -30,7 +30,9 @@ public final class InventoryContract {
         public static final String COLUMN_SUPPLIER = "supplier";
         public static final String COLUMN_PHONE = "phone";
 
-        /**
+        /** The content URI to access the pet data in the provider */
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
+
         /**
          * The MIME type of the CONTENT_URI for a list of inventory items.
          */
