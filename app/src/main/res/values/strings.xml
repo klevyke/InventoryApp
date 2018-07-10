@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">InventoryApp</string>
     <string name="insert_dummy_item">Insert dummy item</string>
+    <string name="name_of_the_item">Name of the item</string>
+    <string name="price_of_the_item">Price</string>
+    <string name="quantity_of_the_item">Quantity</string>
 </resources>

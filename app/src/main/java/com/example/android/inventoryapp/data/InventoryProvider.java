@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
+
 /**
  * Created by Levy on 10.07.2018.
  */
