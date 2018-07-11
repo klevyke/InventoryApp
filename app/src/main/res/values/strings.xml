@@ -11,4 +11,6 @@
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_details">Details</string>
+    <string name="option_delete">Delete</string>
+    <string name="option_edit">Edit</string>
 </resources>
