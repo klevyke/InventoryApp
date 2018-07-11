@@ -24,8 +24,6 @@ public class Details extends AppCompatActivity implements LoaderManager.LoaderCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        Intent intent = getIntent(); // android.content.Intent
-        Uri uri = intent.getData();
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 

@@ -19,17 +19,22 @@
         <activity
             android:name=".Details"
             android:label="@string/title_activity_details"
-            android:theme="@style/AppTheme"
-            android:parentActivityName="com.example.android.inventoryapp.MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.inventoryapp.MainActivity" />
         </activity>
+
         <provider
             android:name=".data.InventoryProvider"
             android:authorities="com.example.android.inventoryapp"
             android:exported="false" />
 
+        <activity
+            android:name=".EditorActivity"
+            android:label="@string/title_activity_editor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
