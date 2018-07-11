@@ -20,10 +20,13 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private static final int INVENTORY_LOADER = 0;
+
+    Uri currentItemUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        currentItemUri = getIntent().getData();
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 
@@ -43,7 +46,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 InventoryEntry.COLUMN_QUANTITY,
                 InventoryEntry.COLUMN_SUPPLIER,
                 InventoryEntry.COLUMN_PHONE};
-        CursorLoader loader = new CursorLoader( this, InventoryEntry.CONTENT_URI, projection,null,null,null);
+        CursorLoader loader = new CursorLoader( this, currentItemUri, projection,null,null,null);
         return loader;
     }
 
