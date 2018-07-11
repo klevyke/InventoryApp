@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,8 +45,6 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         listView.setAdapter(inventoryCursorAdapter);
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
-
-
         // Set an OnClickListener on list items
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -58,6 +57,23 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         });
 
         return rootView;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy item" menu option
+            case R.id.insert_dummy_item:
+                return false;
+            case R.id.action_delete_all_entries:
+                return false;
+            case R.id.edit:
+                return true;
+            case R.id.delete:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

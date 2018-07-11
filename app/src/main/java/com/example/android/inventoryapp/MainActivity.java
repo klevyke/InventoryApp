@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
                 showDeleteAllConfirmationDialog();
                 return true;
             case R.id.edit:
-                return true;
+                return false;
             case R.id.delete:
-                return true;
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }
