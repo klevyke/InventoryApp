@@ -1,8 +1,6 @@
 package com.example.android.inventoryapp;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.CursorLoader;
@@ -20,8 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
-
-import java.net.URI;
 
 /**
  * Created by Levy on 10.07.2018.
@@ -106,7 +102,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         } else {
             // Create an intent
             Intent intent = new Intent(getActivity().getApplicationContext(),
-                    Details.class);
+                    DetailsActivity.class);
             // Put specific extras
             intent.setData(uri);
             // Start the activity

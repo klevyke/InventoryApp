@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
-public class Details extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private static final int INVENTORY_LOADER = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
