@@ -21,12 +21,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Invalidate the options menu, so the "Delete" and "Edit" menu option can be hidden.
+        invalidateOptionsMenu();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the options menu
         getMenuInflater().inflate(R.menu.inventory_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If there is no details fragment
+        MenuItem editItem = menu.findItem(R.id.edit);
+        editItem.setVisible(false);
+        MenuItem deleteItem = menu.findItem(R.id.delete);
+        deleteItem.setVisible(false);
+
         return true;
     }
 
@@ -40,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_delete_all_entries:
                 showDeleteAllConfirmationDialog();
+                return true;
+            case R.id.edit:
+                return true;
+            case R.id.delete:
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -13,4 +13,14 @@
         android:id="@+id/action_delete_all_entries"
         android:title="@string/action_delete_all_items"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/edit"
+        android:title="@string/option_edit"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/delete"
+        android:title="@string/option_delete"
+        app:showAsAction="never" />
 </menu>
