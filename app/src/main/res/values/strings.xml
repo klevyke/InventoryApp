@@ -28,4 +28,7 @@
     <string name="keep_editing">Keep Editing</string>
     <string name="editor_delete_item_successful">Pet deleted</string>
     <string name="editor_delete_item_failed">Error with deleting pet</string>
+    <string name="supplier_of_the_item">Supplier</string>
+    <string name="phone_of_supplier">Phone number</string>
+    <string name="order">Order from supplier</string>
 </resources>
