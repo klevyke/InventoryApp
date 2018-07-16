@@ -11,15 +11,17 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -37,7 +39,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     // Create the adapter for attractions
     InventoryCursorAdapter inventoryCursorAdapter;
     ListView listView;
-
+    View detailsFragmentView;
+    Boolean isDetailVisible=false;
     Uri currentItemUri;
 
     public ListFragment() {
@@ -47,7 +50,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Get the root view
         final View rootView = inflater.inflate(R.layout.fragment_list, container, false);
-        // Fragment fragment = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment);
+
         // Get the ListView to pe populated
         inventoryCursorAdapter = new InventoryCursorAdapter(getActivity(), null);
         listView = (ListView) rootView.findViewById(R.id.list);
@@ -66,6 +69,17 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        detailsFragmentView = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment).getView();
+        if (showInSplitScreen(getView().getRootView())) {
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
+            params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, getResources().getDisplayMetrics());;
+            getView().setLayoutParams(params);
+        }
     }
 
     @Override
@@ -131,11 +145,11 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     private void updateDetailsFragment() {
         Cursor itemCursor = getItem(currentItemUri);
         itemCursor.moveToFirst();
-        TextView name = getActivity().findViewById(R.id.name);
-        TextView price = getActivity().findViewById(R.id.price);
-        TextView quantity = getActivity().findViewById(R.id.quantity);
-        TextView supplier = getActivity().findViewById(R.id.supplier);
-        TextView phone = getActivity().findViewById(R.id.phone);
+        TextView name = detailsFragmentView.findViewById(R.id.name);
+        TextView price = detailsFragmentView.findViewById(R.id.price);
+        TextView quantity = detailsFragmentView.findViewById(R.id.quantity);
+        TextView supplier = detailsFragmentView.findViewById(R.id.supplier);
+        TextView phone = detailsFragmentView.findViewById(R.id.phone);
         name.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_NAME)));
         price.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_PRICE)));
         quantity.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY)));
@@ -144,6 +158,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public void setupDetailsFragmentElements () {
+
+        detailsFragmentView.setVisibility(View.VISIBLE);
         final EditText amount = getActivity().findViewById(R.id.amount);
         Button plusButton = getActivity().findViewById(R.id.increase);
         plusButton.setOnClickListener(new View.OnClickListener() {

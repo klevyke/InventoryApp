@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.android.inventoryapp.MainActivity">
 
     <fragment
+        android:id="@+id/listFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.example.android.inventoryapp.ListFragment" />
+
+    <fragment
         android:id="@+id/detailFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         class="com.example.android.inventoryapp.DetailsFragment" />
 
-    <fragment
-        android:id="@+id/listFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        class="com.example.android.inventoryapp.ListFragment" />
-
-</RelativeLayout>
+</LinearLayout>
