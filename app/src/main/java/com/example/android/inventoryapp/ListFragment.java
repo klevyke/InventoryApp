@@ -3,12 +3,10 @@ package com.example.android.inventoryapp;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -129,7 +126,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         if (showInSplitScreen(rootView)) {
             setupDetailsFragmentElements();
-            updateDetailsFragment();
+            HelperClass.updateDetails(detailsFragmentView, currentItemUri);
         } else {
             // Create an intent
             Intent intent = new Intent(getActivity().getApplicationContext(),
@@ -142,21 +139,11 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
-    private void updateDetailsFragment() {
-        Cursor itemCursor = getItem(currentItemUri);
-        itemCursor.moveToFirst();
-        TextView name = detailsFragmentView.findViewById(R.id.name);
-        TextView price = detailsFragmentView.findViewById(R.id.price);
-        TextView quantity = detailsFragmentView.findViewById(R.id.quantity);
-        TextView supplier = detailsFragmentView.findViewById(R.id.supplier);
-        TextView phone = detailsFragmentView.findViewById(R.id.phone);
-        name.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_NAME)));
-        price.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_PRICE)));
-        quantity.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY)));
-        supplier.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_SUPPLIER)));
-        phone.setText(itemCursor.getString(itemCursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_PHONE)));
-    }
 
+
+    /*
+     * Make the fragment visible and ass event listeners for buttons
+     */
     public void setupDetailsFragmentElements () {
 
         detailsFragmentView.setVisibility(View.VISIBLE);
@@ -166,11 +153,11 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             public void onClick(View view) {
                 int modifier = parseInt(amount.getText().toString());
-                Cursor cursor = getItem(currentItemUri);
+                Cursor cursor = HelperClass.getItem(view.getContext(), currentItemUri);
                 cursor.moveToFirst();
                 int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
-                updateField(InventoryEntry.COLUMN_QUANTITY, currentValue+modifier, cursor);
-                updateDetailsFragment();
+                HelperClass.updateField(view.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue+modifier, cursor);
+                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
                 cursor.close();
             }
         });
@@ -179,28 +166,14 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             public void onClick(View view) {
                 int modifier = parseInt(amount.getText().toString());
-                Cursor cursor = getItem(currentItemUri);
+                Cursor cursor = HelperClass.getItem(view.getContext(), currentItemUri);
                 cursor.moveToFirst();
                 int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
-                updateField(InventoryEntry.COLUMN_QUANTITY, currentValue-modifier, cursor);
-                updateDetailsFragment();
+                HelperClass.updateField(view.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue-modifier, cursor);
+                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
                 cursor.close();
             }
         });
-    }
-    /*
-     * Retrives a single item from inventory table
-     */
-    private Cursor getItem (Uri uri) {
-        return getActivity().getContentResolver().query(uri,null, null, null, null);
-    }
-
-    private void updateField (String column, int value, Cursor cursor ) {
-        ContentValues values = new ContentValues();
-        DatabaseUtils.cursorRowToContentValues(cursor,values);
-        Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, values.getAsLong(InventoryEntry._ID));
-        values.put(column, value);
-        getActivity().getContentResolver().update(uri, values,null, null);
     }
 
     /**
