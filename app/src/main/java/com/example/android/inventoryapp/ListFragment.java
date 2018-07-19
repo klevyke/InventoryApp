@@ -37,7 +37,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     InventoryCursorAdapter inventoryCursorAdapter;
     ListView listView;
     View detailsFragmentView;
-    Boolean isDetailVisible=false;
+
     Uri currentItemUri;
 
     public ListFragment() {
@@ -72,7 +72,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         detailsFragmentView = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment).getView();
-        if (showInSplitScreen(getView().getRootView())) {
+        if (HelperClass.showInSplitScreen(getView().getRootView())) {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
             params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, getResources().getDisplayMetrics());;
             getView().setLayoutParams(params);
@@ -124,9 +124,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         currentItemUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
 
-        if (showInSplitScreen(rootView)) {
+        if (HelperClass.showInSplitScreen(rootView)) {
             setupDetailsFragmentElements();
-            HelperClass.updateDetails(detailsFragmentView, currentItemUri);
         } else {
             // Create an intent
             Intent intent = new Intent(getActivity().getApplicationContext(),
@@ -153,41 +152,18 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             @Override
             public void onClick(View view) {
                 int modifier = parseInt(amount.getText().toString());
-                Cursor cursor = HelperClass.getItem(view.getContext(), currentItemUri);
-                cursor.moveToFirst();
-                int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
-                HelperClass.updateField(view.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue+modifier, cursor);
-                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
-                cursor.close();
+                HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, modifier);
             }
         });
         Button minusButton = getActivity().findViewById(R.id.decrease);
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int modifier = parseInt(amount.getText().toString());
-                Cursor cursor = HelperClass.getItem(view.getContext(), currentItemUri);
-                cursor.moveToFirst();
-                int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
-                HelperClass.updateField(view.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue-modifier, cursor);
-                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
-                cursor.close();
+                int modifier = -parseInt(amount.getText().toString());
+                HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, modifier);
             }
         });
     }
 
-    /**
-     * Check if it must be displayed  in split screen
-     *
-     * @param context
-     */
-    protected Boolean showInSplitScreen(View context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        if (dpWidth > 1000) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
@@ -55,5 +56,29 @@ public final class HelperClass {
      */
     public static Cursor getItem (Context context, Uri uri) {
         return context.getContentResolver().query(uri,null, null, null, null);
+    }
+
+    public static void modifyQuantity (View detailsView, Uri uri, int modifier) {
+        Cursor cursor = getItem(detailsView.getContext(), uri);
+        cursor.moveToFirst();
+        int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
+        updateField(detailsView.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue + modifier, cursor);
+        updateDetails(detailsView, uri);
+        cursor.close();
+    }
+
+    /**
+     * Check if it must be displayed  in split screen
+     *
+     * @param context
+     */
+    public static Boolean showInSplitScreen(View context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+        if (dpWidth > 1000) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
