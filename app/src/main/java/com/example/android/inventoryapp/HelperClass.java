@@ -61,9 +61,9 @@ public final class HelperClass {
     public static void modifyQuantity (View detailsView, Uri uri, int modifier) {
         Cursor cursor = getItem(detailsView.getContext(), uri);
         cursor.moveToFirst();
-        int currentValue = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
+        int index =cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY);
+        int currentValue = cursor.getInt(index);
         updateField(detailsView.getContext(), InventoryEntry.COLUMN_QUANTITY, currentValue + modifier, cursor);
-        updateDetails(detailsView, uri);
         cursor.close();
     }
 

@@ -58,10 +58,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-                // If there is a large display, show the details in a fragment in the same activity otherwise start a new intent to view the details
-                updateDetailsFragment(rootView, id);
-
+                // View the details
+                viewDetails(rootView, id);
             }
         });
 
@@ -120,7 +118,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     /*
      * Update the data in details fragment
      */
-    private void updateDetailsFragment(View rootView, long id) {
+    private void viewDetails(View rootView, long id) {
 
         currentItemUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
 
@@ -144,7 +142,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
      * Make the fragment visible and ass event listeners for buttons
      */
     public void setupDetailsFragmentElements () {
-
+        HelperClass.updateDetails(detailsFragmentView, currentItemUri );
         detailsFragmentView.setVisibility(View.VISIBLE);
         final EditText amount = getActivity().findViewById(R.id.amount);
         Button plusButton = getActivity().findViewById(R.id.increase);
@@ -153,6 +151,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onClick(View view) {
                 int modifier = parseInt(amount.getText().toString());
                 HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, modifier);
+                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
             }
         });
         Button minusButton = getActivity().findViewById(R.id.decrease);
@@ -161,6 +160,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onClick(View view) {
                 int modifier = -parseInt(amount.getText().toString());
                 HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, modifier);
+                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
             }
         });
     }

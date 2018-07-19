@@ -38,6 +38,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             public void onClick(View view) {
                 int modifier = parseInt(amount.getText().toString());
                 HelperClass.modifyQuantity(detailsView, currentItemUri, modifier);
+                HelperClass.updateDetails(detailsView, currentItemUri);
             }
         });
         Button minusButton = detailsView.findViewById(R.id.decrease);
@@ -46,6 +47,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             public void onClick(View view) {
                 int modifier = -parseInt(amount.getText().toString());
                 HelperClass.modifyQuantity(detailsView, currentItemUri, modifier);
+                HelperClass.updateDetails(detailsView, currentItemUri);
             }
         });
     }
