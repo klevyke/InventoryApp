@@ -159,10 +159,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private Boolean checkCompletion() {
-        if (TextUtils.isEmpty(mNameEditText.getText())) {
-            return false;
-        }
-        if (TextUtils.isEmpty(mPriceEditText.getText())) {
+        if (TextUtils.isEmpty(mNameEditText.getText()) ||
+                (TextUtils.isEmpty(mPriceEditText.getText())) ||
+                (TextUtils.isEmpty(mSupplierEditText.getText()))||
+                (TextUtils.isEmpty(mPhoneEditText.getText()))) {
             return false;
         }
         if (TextUtils.isEmpty(mQuantityEditText.getText())) {
@@ -176,7 +176,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         itemValues.put(InventoryEntry.COLUMN_NAME, mNameEditText.getText().toString().trim());
         itemValues.put(InventoryEntry.COLUMN_PRICE, mPriceEditText.getText().toString().trim());
         itemValues.put(InventoryEntry.COLUMN_QUANTITY, mQuantityEditText.getText().toString().trim());
-        itemValues.put(InventoryEntry.COLUMN_SUPPLIER, parseInt(mSupplierEditText.getText().toString().trim()));
+        itemValues.put(InventoryEntry.COLUMN_SUPPLIER, mSupplierEditText.getText().toString().trim());
+        itemValues.put(InventoryEntry.COLUMN_PHONE, mPhoneEditText.getText().toString().trim());
 
         if (currentItemUri == null) {
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, itemValues);
@@ -224,7 +225,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (cursor.moveToFirst()) {
             mNameEditText.setText(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_NAME)));
             mPriceEditText.setText(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_PRICE)));
-            mQuantityEditText.setSelection(parseInt(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_QUANTITY))));
+            mQuantityEditText.setText(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_QUANTITY)));
             mSupplierEditText.setText(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_SUPPLIER)));
             mPhoneEditText.setText(cursor.getString(cursor.getColumnIndex(InventoryEntry.COLUMN_PHONE)));
         }

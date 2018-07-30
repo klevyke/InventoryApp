@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.inventoryapp.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment
-        android:id="@+id/listFragment"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.example.android.inventoryapp.ListFragment" />
+        tools:context="com.example.android.inventoryapp.MainActivity">
 
-    <fragment
-        android:id="@+id/detailFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        <fragment
+            android:id="@+id/listFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            class="com.example.android.inventoryapp.ListFragment" />
+
+        <fragment
+            android:id="@+id/detailFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            class="com.example.android.inventoryapp.DetailsFragment" />
+
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        class="com.example.android.inventoryapp.DetailsFragment" />
-
-</LinearLayout>
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add"/>
+</RelativeLayout>

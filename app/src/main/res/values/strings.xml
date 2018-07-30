@@ -32,4 +32,5 @@
     <string name="phone_of_supplier">Phone number</string>
     <string name="order">Order from supplier</string>
     <string name="sale">Sale</string>
+    <string name="editor_activity_title_new_item">New inventory item</string>
 </resources>
