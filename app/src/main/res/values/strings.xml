@@ -26,11 +26,11 @@
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
-    <string name="editor_delete_item_successful">Pet deleted</string>
-    <string name="editor_delete_item_failed">Error with deleting pet</string>
     <string name="supplier_of_the_item">Supplier</string>
     <string name="phone_of_supplier">Phone number</string>
     <string name="order">Order from supplier</string>
     <string name="sale">Sale</string>
     <string name="editor_activity_title_new_item">New inventory item</string>
+    <string name="editor_delete_item_successful">Item deleted!</string>
+    <string name="editor_delete_item_failed">Error with deleting item</string>
 </resources>

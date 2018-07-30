@@ -1,14 +1,17 @@
 package com.example.android.inventoryapp;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -80,5 +83,73 @@ public final class HelperClass {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Perform the deletion of the pet in the database.
+     */
+    private void deletePet(Context context, Uri uri) {
+        int rowsDeleted = context.getContentResolver().delete(uri,null,null);
+        // Show a toast message depending on whether or not the delete was successful.
+        if (rowsDeleted == 0) {
+            // If no rows were deleted, then there was an error with the delete.
+            Toast.makeText(context, context.getString(R.string.editor_delete_item_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the delete was successful and we can display a toast.
+            Toast.makeText(context, context.getString(R.string.editor_delete_item_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*
+ * Insert a dummy data to database
+ */
+    public static void insertDummyData(Context context){
+
+        // Create a ContentValues object with dummy data to be inserted
+        ContentValues inventoryItem = new ContentValues();
+        inventoryItem.put(InventoryEntry.COLUMN_NAME,"Fossil CH3030 Watch");
+        inventoryItem.put(InventoryEntry.COLUMN_PRICE,299);
+        inventoryItem.put(InventoryEntry.COLUMN_QUANTITY,20);
+        inventoryItem.put(InventoryEntry.COLUMN_SUPPLIER,"Fossil Inc.");
+        inventoryItem.put(InventoryEntry.COLUMN_PHONE,"+44 854 8541");
+
+        context.getContentResolver().insert(InventoryEntry.CONTENT_URI, inventoryItem);
+
+        // Show a toast message
+        Toast.makeText(context, "Item inserted!",Toast.LENGTH_LONG).show();
+    }
+    /*
+     * Delete all items form inventory
+     */
+    public static void deleteAllItems(Context context) {
+        context.getContentResolver().delete(InventoryEntry.CONTENT_URI,null,null);
+    }
+    public static void showDeleteAllConfirmationDialog(final Context context) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the postivie and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.delete_all_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteAllItems(context);
+                Toast.makeText(context, "All items deleted!",Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

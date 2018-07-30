@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,10 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     ListView listView;
     View detailsFragmentView;
 
+    Boolean detailsOpen = false;
+
+    Menu optionsMenu;
+
     Uri currentItemUri;
 
     public ListFragment() {
@@ -45,6 +51,9 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Let's use the activity's menu
+        setHasOptionsMenu(true);
+
         // Get the root view
         final View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
@@ -74,6 +83,23 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
             params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, getResources().getDisplayMetrics());;
             getView().setLayoutParams(params);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        optionsMenu = menu;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if (detailsOpen) {
+            MenuItem editItem = optionsMenu.findItem(R.id.edit);
+            editItem.setVisible(true);
+            MenuItem deleteItem = optionsMenu.findItem(R.id.delete);
+            deleteItem.setVisible(true);
         }
     }
 
@@ -144,6 +170,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public void setupDetailsFragmentElements () {
         HelperClass.updateDetails(detailsFragmentView, currentItemUri );
         detailsFragmentView.setVisibility(View.VISIBLE);
+        detailsOpen = true;
+        getActivity().invalidateOptionsMenu();
         final EditText amount = getActivity().findViewById(R.id.amount);
         Button plusButton = getActivity().findViewById(R.id.increase);
         plusButton.setOnClickListener(new View.OnClickListener() {
