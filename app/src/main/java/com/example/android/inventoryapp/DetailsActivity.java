@@ -1,19 +1,25 @@
 package com.example.android.inventoryapp;
 
+import android.Manifest;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -23,12 +29,16 @@ import static java.lang.Integer.parseInt;
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     // Request code for intent when we wait for a boolean to update the details of item if changed
     private static final int REQUEST_CODE = 1;
+    // Request code for call permission request
+    private static final int CALL_PERMISSION_REQUEST_CODE = 1;
     // Constant for result
     private static final String EDITED_RESULT = "result";
 
     private static final int INVENTORY_LOADER = 0;
     ViewGroup detailsView;
     Uri currentItemUri;
+
+    Button callSupplierButton;
 
     Boolean deleted = false;
 
@@ -58,6 +68,17 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 int modifier = -parseInt(amount.getText().toString());
                 HelperClass.modifyQuantity(detailsView, currentItemUri, modifier);
                 HelperClass.updateDetails(detailsView, currentItemUri);
+            }
+        });
+
+        // Set the OnClickListener to start a call intent if user clicks on order button
+        callSupplierButton = findViewById(R.id.call_supplier);
+        callSupplierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPermissionGranted()) {
+                    HelperClass.callSupplier(getBaseContext(), currentItemUri);
+                }
             }
         });
     }
@@ -131,6 +152,48 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 if (data.getBooleanExtra(EDITED_RESULT,false)) {
                     HelperClass.updateDetails(detailsView, currentItemUri);
                 }
+            }
+        }
+    }
+
+    /**
+     *  Check for permission to call
+     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
+     */
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+    /**
+     *  Handle call permission request
+     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CALL_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    HelperClass.callSupplier(this, currentItemUri);
+                } else {
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
             }
         }
     }

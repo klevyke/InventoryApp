@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.net.Uri;
@@ -155,5 +156,24 @@ public final class HelperClass {
                     Toast.LENGTH_SHORT).show();
         }
             return true;
+    }
+
+    /**
+     * Gets the phone number of the item.
+     */
+    public static String getPhoneNumber (Context context, Uri uri) {
+        Cursor cursor = getItem(context, uri);
+        cursor.moveToFirst();
+        return cursor.getString(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_PHONE));
+    }
+
+    /**
+     * Start the call intent
+     */
+    public static void callSupplier (Context context, Uri uri){
+        Intent call = new Intent();
+        call.setAction(Intent.ACTION_CALL);
+        call.setData(Uri.parse("tel:" + HelperClass.getPhoneNumber(context, uri)));
+        context.startActivity(call);
     }
 }
