@@ -34,4 +34,5 @@
     <string name="editor_delete_item_successful">Item deleted!</string>
     <string name="editor_delete_item_failed">Error with deleting item</string>
     <string name="validation_incomplete_item">Please fill the form with the required information!</string>
+    <string name="usage_info">Please add items by taping on the Add button in the bottom right corner of the screen.\nRequired fields: Name, Price, Supplier, Suplier\'s phone number.</string>
 </resources>

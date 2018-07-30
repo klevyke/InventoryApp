@@ -69,6 +69,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         inventoryCursorAdapter = new InventoryCursorAdapter(getActivity(), null);
         listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(inventoryCursorAdapter);
+        listView.setEmptyView(rootView.findViewById(R.id.empty_view));
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
         // Set an OnClickListener on list items
