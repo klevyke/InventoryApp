@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -115,6 +116,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.edit:
                 return true;
             case R.id.delete:
+                HelperClass.deleteItem(getActivity(), currentItemUri);
+                hideDetailsFragment();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -159,15 +162,12 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             // Start the activity
             startActivity(intent);
         }
-
     }
-
-
 
     /*
      * Make the fragment visible and ass event listeners for buttons
      */
-    public void setupDetailsFragmentElements () {
+    private void setupDetailsFragmentElements () {
         HelperClass.updateDetails(detailsFragmentView, currentItemUri );
         detailsFragmentView.setVisibility(View.VISIBLE);
         detailsOpen = true;
@@ -191,6 +191,11 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 HelperClass.updateDetails(detailsFragmentView, currentItemUri);
             }
         });
+    }
+
+    private void hideDetailsFragment() {
+        detailsFragmentView.setVisibility(View.GONE);
+        detailsOpen = false;
     }
 
 
