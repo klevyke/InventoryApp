@@ -141,17 +141,19 @@ public final class HelperClass {
     /**
      * Perform the deletion of the item in the database.
      */
-    public static void deleteItem(Context context, Uri uri) {
+    public static Boolean deleteItem(Context context, Uri uri) {
         int rowsDeleted = context.getContentResolver().delete(uri,null,null);
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the delete.
             Toast.makeText(context, context.getString(R.string.editor_delete_item_failed),
                     Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             // Otherwise, the delete was successful and we can display a toast.
             Toast.makeText(context, context.getString(R.string.editor_delete_item_successful),
                     Toast.LENGTH_SHORT).show();
         }
+            return true;
     }
 }

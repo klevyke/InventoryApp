@@ -123,9 +123,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 // Save the entered values
                 if (checkCompletion()) {
                     saveItemData();
-                    Toast.makeText(getApplicationContext(), "Item inserted!", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Item not inserted!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Incomplete item.", Toast.LENGTH_LONG).show();
                 }
                 //
                 if (!mItemHasChanged) {
