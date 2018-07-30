@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
+import static android.app.Activity.RESULT_OK;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -34,8 +35,14 @@ import static java.lang.Integer.parseInt;
  */
 
 public class ListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
-
+    //  Constant for LoaderManager
     private static final int INVENTORY_LOADER = 0;
+
+    // Request code for intent when we wait for a boolean to update the details of item if changed
+    private static final int REQUEST_CODE = 1;
+    // Constant for result
+    private static final String EDITED_RESULT = "result";
+
     // Create the adapter for attractions
     InventoryCursorAdapter inventoryCursorAdapter;
     ListView listView;
@@ -114,6 +121,10 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.action_delete_all_entries:
                 return false;
             case R.id.edit:
+                // Start the EditorActivity to modify item data, get a boolean to update the DetailsFragment if modified
+                Intent editItem = new Intent(getActivity(), EditorActivity.class);
+                editItem.setData(currentItemUri);
+                startActivityForResult(editItem, REQUEST_CODE);
                 return true;
             case R.id.delete:
                 HelperClass.deleteItem(getActivity(), currentItemUri);
@@ -198,5 +209,19 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         detailsOpen = false;
     }
 
-
+    /*
+     * Update the details fragment if item was modified
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == REQUEST_CODE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                if (data.getBooleanExtra(EDITED_RESULT,false)) {
+                    HelperClass.updateDetails(detailsFragmentView, currentItemUri);
+                }
+            }
+        }
+    }
 }

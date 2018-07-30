@@ -86,8 +86,8 @@ public final class HelperClass {
     }
 
     /*
- * Insert a dummy data to database
- */
+     * Insert a dummy data to database
+     */
     public static void insertDummyData(Context context){
 
         // Create a ContentValues object with dummy data to be inserted
@@ -103,6 +103,8 @@ public final class HelperClass {
         // Show a toast message
         Toast.makeText(context, "Item inserted!",Toast.LENGTH_LONG).show();
     }
+
+
     /*
      * Delete all items form inventory
      */

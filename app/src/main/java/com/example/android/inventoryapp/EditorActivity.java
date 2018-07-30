@@ -15,6 +15,7 @@
  */
 package com.example.android.inventoryapp;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentUris;
@@ -42,6 +43,8 @@ import static java.lang.Integer.parseInt;
 
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final int INVENTORY_LOADER =1;
+    // Constant for result
+    private static final String EDITED_RESULT = "result";
     /** EditText field to enter the item's name */
     private EditText mNameEditText;
 
@@ -123,6 +126,17 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     Toast.makeText(getApplicationContext(), "Item inserted!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Item not inserted!", Toast.LENGTH_LONG).show();
+                }
+                //
+                if (!mItemHasChanged) {
+                    // If no change return to parent activity
+                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    return true;
+                } else {
+                    // Set a boolean if changed
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra(EDITED_RESULT, mItemHasChanged);
+                    setResult(Activity.RESULT_OK, returnIntent);
                 }
                 finish();
                 return true;
