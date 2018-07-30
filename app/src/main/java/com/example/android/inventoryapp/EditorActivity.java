@@ -124,7 +124,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 if (checkCompletion()) {
                     saveItemData();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Incomplete item.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getText(R.string.validation_incomplete_item), Toast.LENGTH_LONG).show();
+                    return false;
                 }
                 //
                 if (!mItemHasChanged) {
@@ -172,11 +173,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private Boolean checkCompletion() {
-        if (TextUtils.isEmpty(mNameEditText.getText()) ||
-                (TextUtils.isEmpty(mPriceEditText.getText())) ||
-                (TextUtils.isEmpty(mSupplierEditText.getText()))||
-                (TextUtils.isEmpty(mPhoneEditText.getText()))) {
-            return false;
+        if
+            (TextUtils.isEmpty(mNameEditText.getText()) ||
+            (TextUtils.isEmpty(mPriceEditText.getText())) ||
+            (TextUtils.isEmpty(mSupplierEditText.getText()))||
+            (TextUtils.isEmpty(mPhoneEditText.getText()))) {
+                return false;
         }
         if (TextUtils.isEmpty(mQuantityEditText.getText())) {
             mQuantityEditText.setText("0");
