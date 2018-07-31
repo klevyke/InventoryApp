@@ -107,10 +107,14 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         detailsFragmentView = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment).getView();
+
+        // Check if there is a large screen, and set ListView Width to 1/3 if so
         if (HelperClass.showInSplitScreen(getView().getRootView())) {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
-            params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 500, getResources().getDisplayMetrics());;
-            getView().setLayoutParams(params);
+            int screenWidth =  getResources().getDisplayMetrics().widthPixels;
+            params.width = (int) screenWidth/3;
+            View getView = getView();
+            getView.setLayoutParams(params);
         }
     }
 
