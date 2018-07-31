@@ -168,6 +168,16 @@ public final class HelperClass {
     }
 
     /**
+     * Gets the phone number of the item.
+     */
+    public static Boolean isQuantityAvailable (Context context, Uri uri, int quantity) {
+        Cursor cursor = getItem(context, uri);
+        cursor.moveToFirst();
+        int available = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryEntry.COLUMN_QUANTITY));
+        return (available>= quantity);
+    }
+
+    /**
      * Start the call intent
      */
     public static void callSupplier (Context context, Uri uri){

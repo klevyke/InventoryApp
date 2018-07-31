@@ -40,4 +40,5 @@
     <string name="validation_incomplete_item">Please fill the form with the required information!</string>
     <string name="usage_info">Please add items by taping on the Add button in the bottom right corner of the screen.\nRequired fields: Name, Price, Supplier, Suplier\'s phone number.</string>
     <string name="permission_denied">Permission denied!</string>
+    <string name="quantity_not_available">This quantity isn\'t available</string>
 </resources>

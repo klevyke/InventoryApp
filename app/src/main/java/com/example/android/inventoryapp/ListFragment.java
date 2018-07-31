@@ -221,9 +221,13 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int modifier = -parseInt(amount.getText().toString());
-                HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, modifier);
-                HelperClass.updateDetails(detailsFragmentView, currentItemUri);
+                int modifier = parseInt(amount.getText().toString());
+                if (HelperClass.isQuantityAvailable(detailsFragmentView.getContext(), currentItemUri,modifier)) {
+                    HelperClass.modifyQuantity(detailsFragmentView, currentItemUri, -modifier);
+                    HelperClass.updateDetails(detailsFragmentView, currentItemUri);
+                } else {
+                    Toast.makeText(detailsFragmentView.getContext(), R.string.quantity_not_available, Toast.LENGTH_LONG).show();
+                }
             }
         });
 

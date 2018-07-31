@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -33,7 +34,7 @@ public class InventoryCursorAdapter extends CursorAdapter{
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
         // Find the TextViews
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView price = (TextView) view.findViewById(R.id.price);
@@ -46,12 +47,16 @@ public class InventoryCursorAdapter extends CursorAdapter{
 
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(InventoryEntry._ID));
 
-        Button saleButton = view.findViewById(R.id.sale_button);
+        final Button saleButton = view.findViewById(R.id.sale_button);
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
-                HelperClass.modifyQuantity(parent, uri, -1 );
+                if (HelperClass.isQuantityAvailable(context, uri, 1)) {
+                    HelperClass.modifyQuantity(parent, uri, -1);
+                } else {
+                    Toast.makeText(context, context.getText(R.string.quantity_not_available), Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

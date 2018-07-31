@@ -64,9 +64,13 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int modifier = -parseInt(amount.getText().toString());
-                HelperClass.modifyQuantity(detailsView, currentItemUri, modifier);
-                HelperClass.updateDetails(detailsView, currentItemUri);
+                int modifier = parseInt(amount.getText().toString());
+                if (HelperClass.isQuantityAvailable(detailsView.getContext(), currentItemUri,modifier)) {
+                    HelperClass.modifyQuantity(detailsView, currentItemUri, -modifier);
+                    HelperClass.updateDetails(detailsView, currentItemUri);
+                } else {
+                    Toast.makeText(detailsView.getContext(), R.string.quantity_not_available, Toast.LENGTH_LONG).show();
+                }
             }
         });
 
