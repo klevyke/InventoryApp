@@ -80,7 +80,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
             @Override
             public void onClick(View view) {
                 if (isPermissionGranted()) {
-                    HelperClass.callSupplier(getBaseContext(), currentItemUri);
+                    HelperClass.callSupplier(detailsView.getContext(), currentItemUri);
                 }
             }
         });
