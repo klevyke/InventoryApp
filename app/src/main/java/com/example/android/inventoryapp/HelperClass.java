@@ -116,9 +116,11 @@ public final class HelperClass {
     public static void deleteAllItems(Context context) {
         context.getContentResolver().delete(InventoryEntry.CONTENT_URI,null,null);
     }
+
+
     public static void showDeleteAllConfirmationDialog(final Context context) {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {

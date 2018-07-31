@@ -56,11 +56,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy item" menu option
             case R.id.insert_dummy_item:
-                HelperClass.insertDummyData(this);
-                return true;
+                return false;
             case R.id.action_delete_all_entries:
-                HelperClass.showDeleteAllConfirmationDialog(this);
-                return true;
+                return false;
             case R.id.edit:
                 return false;
             case R.id.delete:

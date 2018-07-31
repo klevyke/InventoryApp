@@ -112,6 +112,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        // Set reference to detail fragment's view
         detailsFragmentView = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment).getView();
 
         // Check if there is a large screen, and set ListView Width to 1/3 if so
@@ -119,8 +121,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
             int screenWidth =  getResources().getDisplayMetrics().widthPixels;
             params.width = (int) screenWidth/3;
-            View getView = getView();
-            getView.setLayoutParams(params);
+            getView().setLayoutParams(params);
         }
     }
 
@@ -149,9 +150,13 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy item" menu option
             case R.id.insert_dummy_item:
-                return false;
+                HelperClass.insertDummyData(this.getActivity());
+                return true;
             case R.id.action_delete_all_entries:
-                return false;
+                HelperClass.showDeleteAllConfirmationDialog(this.getActivity());
+                getFragmentManager().findFragmentById(R.id.detailFragment).getView().setVisibility(View.GONE);
+                hideDetailsFragment();
+                return true;
             case R.id.edit:
                 // Start the EditorActivity to modify item data, get a boolean to update the DetailsFragment if modified
                 Intent editItem = new Intent(getActivity(), EditorActivity.class);
