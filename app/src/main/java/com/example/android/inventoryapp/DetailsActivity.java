@@ -26,32 +26,51 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 import static java.lang.Integer.parseInt;
 
 public class DetailsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
     // Request code for intent when we wait for a boolean to update the details of item if changed
     private static final int REQUEST_CODE = 1;
+
     // Request code for call permission request
     private static final int CALL_PERMISSION_REQUEST_CODE = 1;
+
     // Constant for result
     private static final String EDITED_RESULT = "result";
 
+    //  Constant for LoaderManager
     private static final int INVENTORY_LOADER = 0;
+
+    // DetailsFragment parent View
     ViewGroup detailsView;
+
+    // Current item's uri
     Uri currentItemUri;
 
+    // Call supplier button to set the OnClickListener
     Button callSupplierButton;
 
+    // Boolean for deletion. After deleting don't update the details.
     Boolean deleted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+
+        // Get the fragments's parent View
         detailsView = (ViewGroup) ((ViewGroup) this
                 .findViewById(android.R.id.content)).getChildAt(0);
+
+        // Get the current item
         currentItemUri = getIntent().getData();
+
+        // Initiate the Loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
+        // Handle the quantity change buttons
         final EditText amount = detailsView.findViewById(R.id.amount);
         Button plusButton = detailsView.findViewById(R.id.increase);
+
+        // Add an event listener to decrease the value on click
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,6 +79,7 @@ public class DetailsActivity extends AppCompatActivity implements LoaderManager.
                 HelperClass.updateDetails(detailsView, currentItemUri);
             }
         });
+        // Add an event listener to decrease the value if the given quantity is available
         Button minusButton = detailsView.findViewById(R.id.decrease);
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override

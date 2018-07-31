@@ -61,23 +61,35 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /** EditText field to enter the supplier's phone number */
     private EditText mPhoneEditText;
 
+    // Boolean if data was modified
     private boolean mItemHasChanged = false;
 
+    // Current item's uri
     Uri currentItemUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        // Get the intent
         Intent intent = getIntent();
+
+        // Get the current uri
         currentItemUri = intent.getData();
+
         if (currentItemUri == null) {
+
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             invalidateOptionsMenu();
+
             // This is a new item, so change the app bar to say "Add a Item"
             setTitle(getString(R.string.add_item_title));
+
         } else {
+
             setTitle(getString(R.string.edit_item_title));
+            // Initiate the Loader
             getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
         }
 
@@ -88,6 +100,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         mSupplierEditText = (EditText) findViewById(R.id.supplier);
         mPhoneEditText = (EditText) findViewById(R.id.phone);
 
+        // Set OnTouchListener on EditText elements
         mNameEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
@@ -173,7 +186,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Check if required fields are completed
+     * @return Boolean
+     */
     private Boolean checkCompletion() {
+
+        // Check if required fields are completed
         if
             (TextUtils.isEmpty(mNameEditText.getText()) ||
             (TextUtils.isEmpty(mPriceEditText.getText())) ||
@@ -181,6 +200,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             (TextUtils.isEmpty(mPhoneEditText.getText()))) {
                 return false;
         }
+
+        // Set the default value if no value set
         if (TextUtils.isEmpty(mQuantityEditText.getText())) {
             mQuantityEditText.setText("0");
         }
@@ -188,6 +209,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     private Uri saveItemData() {
+
+        // Get the EditText values and put in a ContentValues object
         ContentValues itemValues = new ContentValues();
         itemValues.put(InventoryEntry.COLUMN_NAME, mNameEditText.getText().toString().trim());
         itemValues.put(InventoryEntry.COLUMN_PRICE, mPriceEditText.getText().toString().trim());
@@ -195,6 +218,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         itemValues.put(InventoryEntry.COLUMN_SUPPLIER, mSupplierEditText.getText().toString().trim());
         itemValues.put(InventoryEntry.COLUMN_PHONE, mPhoneEditText.getText().toString().trim());
 
+        // If its a new item insert the values, otherwise update the item
         if (currentItemUri == null) {
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, itemValues);
             if (newUri == null) {

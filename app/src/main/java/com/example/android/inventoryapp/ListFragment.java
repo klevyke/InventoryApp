@@ -87,8 +87,14 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         // Get the ListView to pe populated
         inventoryCursorAdapter = new InventoryCursorAdapter(getActivity(), null);
         listView = (ListView) rootView.findViewById(R.id.list);
+
+        // Set the adapter
         listView.setAdapter(inventoryCursorAdapter);
+
+        // Set the empty view
         listView.setEmptyView(rootView.findViewById(R.id.empty_view));
+
+        // Initiate the Loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
         // Set an OnClickListener on list items
@@ -127,6 +133,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+
+        // Show the Edit/Delete menu item if details fragment is visible
         if (detailsOpen) {
             MenuItem editItem = optionsMenu.findItem(R.id.edit);
             editItem.setVisible(true);
@@ -203,12 +211,22 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
      * Make the fragment visible and ass event listeners for buttons
      */
     private void setupDetailsFragmentElements () {
+
+        // Populate/update the details fragment
         HelperClass.updateDetails(detailsFragmentView, currentItemUri );
+
+        // Show the details fragment
         detailsFragmentView.setVisibility(View.VISIBLE);
         detailsOpen = true;
+
+        // Update the options menu
         getActivity().invalidateOptionsMenu();
+
+        // Handle the quantity change buttons
         final EditText amount = getActivity().findViewById(R.id.amount);
         Button plusButton = getActivity().findViewById(R.id.increase);
+
+        // Add an event listener to decrease the value on click
         plusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,6 +235,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 HelperClass.updateDetails(detailsFragmentView, currentItemUri);
             }
         });
+        // Add an event listener to decrease the value if the given quantity is available
         Button minusButton = getActivity().findViewById(R.id.decrease);
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,6 +262,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         });
     }
 
+    // Hide the details fragment and set the detailsOpen Boolean to false
     private void hideDetailsFragment() {
         detailsFragmentView.setVisibility(View.GONE);
         detailsOpen = false;
@@ -266,7 +286,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
     /**
      *  Check for permission to call
-     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
+     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125 and
+     *  https://developer.android.com/training/permissions/requesting
      */
     public  boolean isPermissionGranted() {
 
@@ -286,7 +307,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
     /**
      *  Handle call permission request
-     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
+     *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125 and
+     *  https://developer.android.com/training/permissions/requesting
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -295,7 +317,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         switch (requestCode) {
             case CALL_PERMISSION_REQUEST_CODE: {
 
-                // Check if access is granted
+                // Check if  is granted
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     HelperClass.callSupplier(getActivity(), currentItemUri);
                 } else {
@@ -304,4 +326,5 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             }
         }
     }
+
 }

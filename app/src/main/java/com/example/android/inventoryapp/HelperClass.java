@@ -26,6 +26,7 @@ public final class HelperClass {
      * Empty private constructor
      */
     private HelperClass() {}
+
     /*
      * Update the TextView values
      */
@@ -62,6 +63,9 @@ public final class HelperClass {
         return context.getContentResolver().query(uri,null, null, null, null);
     }
 
+    /*
+     * Modify the quantity of an item
+     */
     public static void modifyQuantity (View detailsView, Uri uri, int modifier) {
         Cursor cursor = getItem(detailsView.getContext(), uri);
         cursor.moveToFirst();
