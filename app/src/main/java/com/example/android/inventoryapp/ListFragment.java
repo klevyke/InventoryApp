@@ -92,7 +92,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         // Get the ListView to pe populated
         inventoryCursorAdapter = new InventoryCursorAdapter(parentActivity, null);
-        listView = (ListView) rootView.findViewById(R.id.list);
+        listView = rootView.findViewById(R.id.list);
 
         // Set the adapter
         listView.setAdapter(inventoryCursorAdapter);
@@ -126,7 +126,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         if (HelperClass.showInSplitScreen(getView().getRootView())) {
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) getView().getLayoutParams();
             int screenWidth =  getResources().getDisplayMetrics().widthPixels;
-            params.width = (int) screenWidth/3;
+            params.width = screenWidth/3;
             getView().setLayoutParams(params);
         }
     }
@@ -184,8 +184,8 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 InventoryEntry.COLUMN_NAME,
                 InventoryEntry.COLUMN_PRICE,
                 InventoryEntry.COLUMN_QUANTITY };
-        CursorLoader loader = new CursorLoader(parentActivity, InventoryEntry.CONTENT_URI, projection,null,null,null);
-        return loader;
+
+        return new CursorLoader(parentActivity, InventoryEntry.CONTENT_URI, projection,null,null,null);
     }
 
     @Override

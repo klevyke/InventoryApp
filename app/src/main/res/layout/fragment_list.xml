@@ -9,27 +9,18 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:id="@+id/empty_view"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/store"
-            android:layout_margin="@dimen/large_margin"/>
-
+        android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/empty_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/large_margin"
+            android:padding="@dimen/large_margin"
             android:textAlignment="center"
+            android:drawableTop="@drawable/store"
             android:textSize="@dimen/empty_text_size"
             android:text="@string/usage_info"/>
-    </LinearLayout>
+    </ScrollView>
 
 </FrameLayout>

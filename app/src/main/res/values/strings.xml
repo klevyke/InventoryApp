@@ -50,4 +50,8 @@
     <string name="edit_quantity_label">Price (default 0)</string>
     <string name="edit_supplier_label">Supplier (required)</string>
     <string name="edit_phone_label">Supplier\'s phone number (required)</string>
+    <string name="empty_image_description">Store image</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="change_quantity_default">1</string>
 </resources>

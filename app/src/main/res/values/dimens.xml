@@ -10,5 +10,5 @@
     <dimen name="list_value">16dp</dimen>
     <dimen name="inline_label">24dp</dimen>
     <dimen name="button_text_size">16sp</dimen>
-    <dimen name="empty_text_size">18sp</dimen>
+    <dimen name="empty_text_size">20sp</dimen>
 </resources>

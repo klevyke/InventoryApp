@@ -17,7 +17,7 @@
     <item
         android:id="@+id/edit"
         android:title="@string/option_edit"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/delete"

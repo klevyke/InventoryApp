@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.example.android.inventoryapp.DetailsActivity">
+        tools:context="com.example.android.inventoryapp.DetailsActivity"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true">
 
 
         <LinearLayout
@@ -107,9 +108,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:descendantFocusability="beforeDescendants"
-                android:focusableInTouchMode="true">
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_height="wrap_content"
@@ -126,7 +125,7 @@
                     android:layout_height="64dp"
                     android:inputType="number"
                     android:layout_marginLeft="@dimen/small_margin"
-                    android:text="1"/>
+                    android:text="@string/change_quantity_default"/>
 
                 <Button
                     android:id="@+id/decrease"
@@ -134,7 +133,7 @@
                     android:layout_height="wrap_content"
                     style="@style/ButtonStyle"
                     android:layout_marginLeft="@dimen/small_margin"
-                    android:text="-"/>
+                    android:text="@string/minus_sign"/>
 
                 <Button
                     android:id="@+id/increase"
@@ -142,7 +141,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/small_margin"
                     style="@style/ButtonStyle"
-                    android:text="+"/>
+                    android:text="@string/plus_sign"/>
 
             </LinearLayout>
 
