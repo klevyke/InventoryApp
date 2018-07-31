@@ -14,8 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,7 +26,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -41,26 +38,38 @@ import static java.lang.Integer.parseInt;
  */
 
 public class ListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
+
     //  Constant for LoaderManager
     private static final int INVENTORY_LOADER = 0;
+
     // Request code for call permission request
     private static final int CALL_PERMISSION_REQUEST_CODE = 1;
+
     // Request code for intent when we wait for a boolean to update the details of item if changed
     private static final int REQUEST_CODE = 1;
+
     // Constant for result
     private static final String EDITED_RESULT = "result";
 
     // Create the adapter for attractions
     InventoryCursorAdapter inventoryCursorAdapter;
+
+    // ListView for items
     ListView listView;
+
+    // Details View reference
     View detailsFragmentView;
 
+    // Boolean used to check if details fragment is populated
     Boolean detailsOpen = false;
 
+    // Options menu object to show/hide Edit/Delete menu items
     Menu optionsMenu;
 
+    // Current item uri
     Uri currentItemUri;
 
+    // Call button to attach OnClickListener
     Button callSupplierButton;
 
     public ListFragment() {
@@ -68,6 +77,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         // Let's use the activity's menu
         setHasOptionsMenu(true);
 
@@ -251,19 +261,17 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
      *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
      */
     public  boolean isPermissionGranted() {
+
+        // Permission is automatically granted on sdk<23 upon installation
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(getActivity(),android.Manifest.permission.CALL_PHONE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                Log.v("TAG","Permission is granted");
+            if (ActivityCompat.checkSelfPermission(getActivity(),android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                Log.v("TAG","Permission is revoked");
                 requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
                 return false;
             }
         }
-        else { //permission is automatically granted on sdk<23 upon installation
-            Log.v("TAG","Permission is granted");
+        else {
             return true;
         }
     }
@@ -273,17 +281,18 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
      *  Based on: https://stackoverflow.com/questions/42057040/android-request-runtime-permission-to-call-action/42057125
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        // Check the request code
         switch (requestCode) {
             case CALL_PERMISSION_REQUEST_CODE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                // Check if access is granted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     HelperClass.callSupplier(getActivity(), currentItemUri);
                 } else {
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getText(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }

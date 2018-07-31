@@ -8,8 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
-
 public class MainActivity extends AppCompatActivity {
     // Loader constant
     private static final int INVENTORY_LOADER = 0;

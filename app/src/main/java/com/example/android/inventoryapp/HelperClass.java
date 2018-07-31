@@ -102,7 +102,7 @@ public final class HelperClass {
         context.getContentResolver().insert(InventoryEntry.CONTENT_URI, inventoryItem);
 
         // Show a toast message
-        Toast.makeText(context, "Item inserted!",Toast.LENGTH_LONG).show();
+        Toast.makeText(context, context.getText(R.string.item_inserted),Toast.LENGTH_LONG).show();
     }
 
 
@@ -121,7 +121,7 @@ public final class HelperClass {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
                 deleteAllItems(context);
-                Toast.makeText(context, "All items deleted!",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getText(R.string.all_items_deleted),Toast.LENGTH_LONG).show();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -171,9 +171,11 @@ public final class HelperClass {
      * Start the call intent
      */
     public static void callSupplier (Context context, Uri uri){
+
+        // Create a call intent
         Intent call = new Intent();
         call.setAction(Intent.ACTION_CALL);
-        call.setData(Uri.parse("tel:" + HelperClass.getPhoneNumber(context, uri)));
+        call.setData(Uri.parse("tel:" + getPhoneNumber(context, uri)));
         context.startActivity(call);
     }
 }

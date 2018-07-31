@@ -39,10 +39,11 @@ import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
-import static java.lang.Integer.parseInt;
-
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final int INVENTORY_LOADER =1;
+
+    //  Constant for LoaderManager
+    private static final int INVENTORY_LOADER = 0;
+
     // Constant for result
     private static final String EDITED_RESULT = "result";
     /** EditText field to enter the item's name */
@@ -74,9 +75,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             invalidateOptionsMenu();
             // This is a new item, so change the app bar to say "Add a Item"
-            setTitle("Add item");
+            setTitle(getString(R.string.add_item_title));
         } else {
-            setTitle("Edit item");
+            setTitle(getString(R.string.edit_item_title));
             getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
         }
 
