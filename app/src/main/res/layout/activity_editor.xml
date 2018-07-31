@@ -4,41 +4,87 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="@dimen/normal_margin"
     tools:context=".EditorActivity">
 
+    <LinearLayout
+        style="@style/EditPropertyStyle">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/name"
-        android:hint="@string/name"
-        android:inputType="textCapWords" />
+        <TextView
+            android:id="@+id/edit_name_label"
+            style="@style/DetailLabel"
+            tools:text="@string/edit_name_label"
+            android:text="@string/edit_name_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:hint="@string/name"
+            android:inputType="textCapWords" />
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/price"
-        android:hint="@string/price"
-        android:inputType="number" />
+    <LinearLayout
+        style="@style/EditPropertyStyle">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/quantity"
-        android:hint="@string/quantity"
-        android:inputType="number" />
+        <TextView
+            android:id="@+id/edit_price_label"
+            style="@style/DetailLabel"
+            tools:text="@string/edit_price_label"
+            android:text="@string/edit_price_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/price"
+            android:hint="@string/price"
+            android:inputType="number" />
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/supplier"
-        android:hint="@string/supplier"
-        android:inputType="textCapWords" />
+    <LinearLayout
+        style="@style/EditPropertyStyle">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/phone"
-        android:hint="@string/phone"
-        android:inputType="number" />
+        <TextView
+            android:id="@+id/edit_quantity_label"
+            style="@style/DetailLabel"
+            tools:text="@string/edit_quantity_label"
+            android:text="@string/edit_quantity_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/quantity"
+            android:hint="@string/quantity"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/EditPropertyStyle">
+
+        <TextView
+            android:id="@+id/edit_supplier_label"
+            style="@style/DetailLabel"
+            tools:text="@string/edit_supplier_label"
+            android:text="@string/edit_supplier_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/supplier"
+            android:hint="@string/supplier"
+            android:inputType="textCapWords" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/EditPropertyStyle">
+
+        <TextView
+            android:id="@+id/edit_phone_label"
+            style="@style/DetailLabel"
+            tools:text="@string/edit_phone_label"
+            android:text="@string/edit_phone_label"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/phone"
+            android:hint="@string/phone"
+            android:inputType="number" />
+    </LinearLayout>
+
 </LinearLayout>

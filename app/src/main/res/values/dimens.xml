@@ -1,3 +1,14 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="normal_margin">16dp</dimen>
+    <dimen name="large_margin">32dp</dimen>
+    <dimen name="title">32sp</dimen>
+    <dimen name="list_title">18sp</dimen>
+    <dimen name="detail_label">16dp</dimen>
+    <dimen name="detail_value">24dp</dimen>
+    <dimen name="list_label">16dp</dimen>
+    <dimen name="list_value">16dp</dimen>
+    <dimen name="inline_label">24dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="empty_text_size">18sp</dimen>
 </resources>

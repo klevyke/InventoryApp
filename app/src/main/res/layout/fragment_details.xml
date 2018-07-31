@@ -3,54 +3,101 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.android.inventoryapp.DetailsFragment"
-    android:background="#FF0000">
+    tools:context="com.example.android.inventoryapp.DetailsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="@dimen/large_margin">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:textAppearance="?android:textAppearanceMedium"
-            app:layout_constraintEnd_toEndOf="parent"
+            style="@style/TitleStyle"
             tools:text="@string/name_of_the_item"/>
 
-        <TextView
-            android:id="@+id/price"
+        <LinearLayout
+            style="@style/DetailsPropertyStyle">
+
+            <TextView
+                android:id="@+id/price_label"
+                style="@style/DetailLabel"
+                tools:text="@string/price_of_the_item"
+                android:text="@string/price_of_the_item"/>
+            <TextView
+                android:id="@+id/price"
+                style="@style/DetailValue"
+                tools:text="@string/price_placeholder"/>
+
+        </LinearLayout>
+        <LinearLayout
+            style="@style/DetailsPropertyStyle">
+
+            <TextView
+                android:id="@+id/quantity_label"
+                style="@style/DetailLabel"
+                tools:text="@string/quantity_of_the_item"
+                android:text="@string/quantity_of_the_item"/>
+
+            <TextView
+                android:id="@+id/quantity"
+                style="@style/DetailValue"
+                tools:text="@string/quantity_placeholder"/>
+
+        </LinearLayout>
+        <LinearLayout
+            style="@style/DetailsPropertyStyle">
+
+            <TextView
+                android:id="@+id/supplier_label"
+                style="@style/DetailLabel"
+                tools:text="@string/supplier_of_the_item"
+                android:text="@string/supplier_of_the_item"/>
+
+            <TextView
+                android:id="@+id/supplier"
+                style="@style/DetailValue"
+                tools:text="@string/supplier_of_the_item"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            tools:text="@string/price_of_the_item" />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                style="@style/DetailsPropertyStyle">
+
+                <TextView
+                    android:id="@+id/phone_label"
+                    style="@style/DetailLabel"
+                    tools:text="@string/phone_of_supplier"
+                    android:text="@string/phone_of_supplier"/>
+
+                <TextView
+                    android:id="@+id/phone"
+                    style="@style/DetailValue"
+                    tools:text="@string/phone_of_supplier"/>
+            </LinearLayout>
+            <Button
+                android:id="@+id/call_supplier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/normal_margin"
+                android:drawableLeft="@drawable/ic_phone"
+                android:text="@string/order"
+                style="@style/ButtonStyle"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/quantity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            tools:text="@string/quantity_of_the_item"/>
+            android:id="@+id/stock_change_title"
+            style="@style/DetailLabel"
+            tools:text="@string/stock_change_title"
+            android:text="@string/stock_change_title"/>
 
-        <TextView
-            android:id="@+id/supplier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            tools:text="@string/supplier_of_the_item"/>
-
-        <TextView
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:textAppearance="?android:textAppearanceSmall"
-            tools:text="@string/phone_of_supplier"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,30 +105,40 @@
             android:descendantFocusability="beforeDescendants"
             android:focusableInTouchMode="true">
 
-            <Button
-                android:id="@+id/decrease"
-                android:layout_width="wrap_content"
+            <TextView
                 android:layout_height="wrap_content"
-                android:text="-"/>
+                android:layout_width="wrap_content"
+                android:id="@+id/change_stock_by"
+                tools:text="@string/change_stock_by"
+                android:text="@string/change_stock_by"
+                android:textSize="@dimen/inline_label"
+                android:textColor="@color/colorTextPrimary"/>
 
             <EditText
                 android:id="@+id/amount"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:inputType="number"
+                android:layout_marginLeft="@dimen/small_margin"
                 android:text="1"/>
+
+            <Button
+                android:id="@+id/decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ButtonStyle"
+                android:layout_marginLeft="@dimen/small_margin"
+                android:text="-"/>
 
             <Button
                 android:id="@+id/increase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/small_margin"
+                style="@style/ButtonStyle"
                 android:text="+"/>
 
         </LinearLayout>
-        <Button
-            android:id="@+id/call_supplier"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/order"/>
+
     </LinearLayout>
 </FrameLayout>
