@@ -1,6 +1,7 @@
 package com.example.android.inventoryapp;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
 import android.content.ContentUris;
@@ -75,17 +76,22 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
     public ListFragment() {
         // Required empty public constructor
     }
+    // Reference to Activity
+    Activity parentActivity;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Let's use the activity's menu
         setHasOptionsMenu(true);
 
+        // Set the parentActivity variable to be used in few times
+        parentActivity = this.getActivity();
+
         // Get the root view
         final View rootView = inflater.inflate(R.layout.fragment_list, container, false);
 
         // Get the ListView to pe populated
-        inventoryCursorAdapter = new InventoryCursorAdapter(getActivity(), null);
+        inventoryCursorAdapter = new InventoryCursorAdapter(parentActivity, null);
         listView = (ListView) rootView.findViewById(R.id.list);
 
         // Set the adapter
@@ -114,7 +120,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         super.onActivityCreated(savedInstanceState);
 
         // Set reference to detail fragment's view
-        detailsFragmentView = getActivity().getFragmentManager().findFragmentById(R.id.detailFragment).getView();
+        detailsFragmentView = parentActivity.getFragmentManager().findFragmentById(R.id.detailFragment).getView();
 
         // Check if there is a large screen, and set ListView Width to 1/3 if so
         if (HelperClass.showInSplitScreen(getView().getRootView())) {
@@ -150,21 +156,21 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy item" menu option
             case R.id.insert_dummy_item:
-                HelperClass.insertDummyData(this.getActivity());
+                HelperClass.insertDummyData(parentActivity);
                 return true;
             case R.id.action_delete_all_entries:
-                HelperClass.showDeleteAllConfirmationDialog(this.getActivity());
+                HelperClass.showDeleteAllConfirmationDialog(parentActivity);
                 getFragmentManager().findFragmentById(R.id.detailFragment).getView().setVisibility(View.GONE);
                 hideDetailsFragment();
                 return true;
             case R.id.edit:
                 // Start the EditorActivity to modify item data, get a boolean to update the DetailsFragment if modified
-                Intent editItem = new Intent(getActivity(), EditorActivity.class);
+                Intent editItem = new Intent(parentActivity, EditorActivity.class);
                 editItem.setData(currentItemUri);
                 startActivityForResult(editItem, REQUEST_CODE);
                 return true;
             case R.id.delete:
-                HelperClass.deleteItem(getActivity(), currentItemUri);
+                HelperClass.deleteItem(parentActivity, currentItemUri);
                 hideDetailsFragment();
                 return true;
         }
@@ -178,7 +184,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
                 InventoryEntry.COLUMN_NAME,
                 InventoryEntry.COLUMN_PRICE,
                 InventoryEntry.COLUMN_QUANTITY };
-        CursorLoader loader = new CursorLoader(getActivity(), InventoryEntry.CONTENT_URI, projection,null,null,null);
+        CursorLoader loader = new CursorLoader(parentActivity, InventoryEntry.CONTENT_URI, projection,null,null,null);
         return loader;
     }
 
@@ -203,7 +209,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             setupDetailsFragmentElements();
         } else {
             // Create an intent
-            Intent intent = new Intent(getActivity().getApplicationContext(),
+            Intent intent = new Intent(parentActivity.getApplicationContext(),
                     DetailsActivity.class);
             // Put specific extras
             intent.setData(currentItemUri);
@@ -225,11 +231,11 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         detailsOpen = true;
 
         // Update the options menu
-        getActivity().invalidateOptionsMenu();
+        parentActivity.invalidateOptionsMenu();
 
         // Handle the quantity change buttons
-        final EditText amount = getActivity().findViewById(R.id.amount);
-        Button plusButton = getActivity().findViewById(R.id.increase);
+        final EditText amount = parentActivity.findViewById(R.id.amount);
+        Button plusButton = parentActivity.findViewById(R.id.increase);
 
         // Add an event listener to decrease the value on click
         plusButton.setOnClickListener(new View.OnClickListener() {
@@ -241,7 +247,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
             }
         });
         // Add an event listener to decrease the value if the given quantity is available
-        Button minusButton = getActivity().findViewById(R.id.decrease);
+        Button minusButton = parentActivity.findViewById(R.id.decrease);
         minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -256,12 +262,12 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
         });
 
         // Set the OnClickListener to start a call intent if user clicks on order button
-        callSupplierButton = getActivity().findViewById(R.id.call_supplier);
+        callSupplierButton = parentActivity.findViewById(R.id.call_supplier);
         callSupplierButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isPermissionGranted()) {
-                    HelperClass.callSupplier(getActivity(), currentItemUri);
+                    HelperClass.callSupplier(parentActivity, currentItemUri);
                 }
             }
         });
@@ -298,7 +304,7 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
         // Permission is automatically granted on sdk<23 upon installation
         if (Build.VERSION.SDK_INT >= 23) {
-            if (ActivityCompat.checkSelfPermission(getActivity(),android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(parentActivity,android.Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
                 requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, CALL_PERMISSION_REQUEST_CODE);
@@ -324,9 +330,9 @@ public class ListFragment extends Fragment implements LoaderManager.LoaderCallba
 
                 // Check if  is granted
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    HelperClass.callSupplier(getActivity(), currentItemUri);
+                    HelperClass.callSupplier(parentActivity, currentItemUri);
                 } else {
-                    Toast.makeText(getActivity(), getText(R.string.permission_denied), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(parentActivity, getText(R.string.permission_denied), Toast.LENGTH_SHORT).show();
                 }
             }
         }
